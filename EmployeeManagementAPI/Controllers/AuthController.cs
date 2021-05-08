@@ -34,8 +34,8 @@ namespace EmployeeManagementAPI.Controllers
             {
                 return BadRequest();
             }
-            var role = _userService.IsValidUserCredentials(request);
-            if (role == "invalidUser")
+            Dictionary<string, string> result = _userService.IsValidUserCredentials(request);
+            if (result.GetValueOrDefault("isValid") == "invalidUser")
             {
                 return Unauthorized();
             }
@@ -43,7 +43,8 @@ namespace EmployeeManagementAPI.Controllers
             var claims = new[]
             {
             new Claim(ClaimTypes.Name,request.UserName),
-            new Claim(ClaimTypes.Role, role)
+            new Claim(ClaimTypes.Role, result.GetValueOrDefault("role")),
+            new Claim(ClaimTypes.NameIdentifier, result.GetValueOrDefault("id"))
         };
 
             var jwtResult = _jwtAuthManager.GenerateTokens(request.UserName, claims, DateTime.Now);
@@ -51,7 +52,8 @@ namespace EmployeeManagementAPI.Controllers
             return Ok(new LoginResult
             {
                 UserName = request.UserName,
-                Role = role,
+                Role = result.GetValueOrDefault("role"),
+                UserId = result.GetValueOrDefault("id"),
                 AccessToken = jwtResult.AccessToken,
                 RefreshToken = jwtResult.RefreshToken.TokenString
             });

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,20 +36,107 @@ namespace EmployeeManagementAPI.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] AddEmployeeRequest request)
         {
+            try
+            {
+                if (User.IsInRole("admin") || User.IsInRole("superadmin"))
+                {
+                    Employee employee = new Employee
+                    {
+                        UserName = request.UserName,
+                        Password = request.Password,
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        MiddleName = request.MiddleName,
+                        City = request.City,
+                        Address = request.Address,
+                        ContactNum = request.ContactNum,
+                        Gender = request.Gender,
+                        DateOfBirth = request.DateOfBirth,
+                        JoiningDt = request.JoiningDt,
+                        RelievingDt = request.RelievingDt,
+                        Education = request.Education,
+                        UserImage = request.UserImage,
+                        RoleId = request.RoleId,
+                        DesignationId = request.DestinationId,
+                        CreatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                        ModifiedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                    };
+                    return Ok(_employeeService.AddOrUpdateEmployee(employee, false, false));
+                }
+                return Forbid();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
-        // PUT api/<EmployeeController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/<EmployeeController>
+        [HttpPut]
+        public IActionResult Put([FromBody] AddEmployeeRequest request)
         {
+            try
+            {
+                if (User.IsInRole("admin") || User.IsInRole("superadmin"))
+                {
+                    if(request.Id == Guid.Empty || request.Id == null)
+                    {
+                        return BadRequest("Employee Id is necessary");
+                    }
+                    Employee employee = new Employee
+                    {
+                        Id = request.Id,
+                        UserName = request.UserName,
+                        Password = request.Password,
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        MiddleName = request.MiddleName,
+                        City = request.City,
+                        Address = request.Address,
+                        ContactNum = request.ContactNum,
+                        Gender = request.Gender,
+                        DateOfBirth = request.DateOfBirth,
+                        JoiningDt = request.JoiningDt,
+                        RelievingDt = request.RelievingDt,
+                        Education = request.Education,
+                        UserImage = request.UserImage,
+                        RoleId = request.RoleId,
+                        DesignationId = request.DestinationId,
+                        ModifiedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                    };
+                    return Ok(_employeeService.AddOrUpdateEmployee(employee, true, false));
+                }
+                return Forbid();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE api/<EmployeeController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(Guid id)
         {
+            try
+            {
+                if (User.IsInRole("admin") || User.IsInRole("superadmin"))
+                {
+                    Employee employee = new Employee
+                    {
+                        Id = id,
+                        ModifiedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                    };
+                    return Ok(_employeeService.AddOrUpdateEmployee(employee, false, true));
+                }
+                return Forbid();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

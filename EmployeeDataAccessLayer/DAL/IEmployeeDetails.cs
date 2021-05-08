@@ -1,7 +1,6 @@
 ﻿using EmployeeDataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace EmployeeDataAccessLayer.DAL
 {
@@ -9,5 +8,6 @@ namespace EmployeeDataAccessLayer.DAL
     {
         List<Employee> GetUserDetails();
         List<Employee> GetUserProfileData(Guid empId);
+        UpdateEmployeeResult AddOrUpdateEmployee(Employee emp, bool isUpdate, bool isDelete);
     }
 }

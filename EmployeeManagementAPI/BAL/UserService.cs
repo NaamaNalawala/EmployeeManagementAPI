@@ -20,16 +20,25 @@ namespace EmployeeManagementAPI.BAL
             return "";
         }
 
-        public string IsValidUserCredentials(LoginRequest request)
+        public Dictionary<string, string> IsValidUserCredentials(LoginRequest request)
         {
             IEmployeeDetails employee = new EmployeeDetails();
             List<Employee> emp = employee.GetUserProfileData(Guid.Empty);
             Employee e = emp.Find(x => x.UserName == request.UserName);
+            Dictionary<string, string> result = new Dictionary<string, string>();
             if (e!=null && e.Password == request.Password)
             {
-                return e.Role;
+                result.Add("role", e.Role);
+                result.Add("id", e.Id.ToString());
+                result.Add("isValid", "true");
             }
-            else return "invalidUser";
+            else
+            {
+                result.Add("role", null);
+                result.Add("id", null);
+                result.Add("isValid", "false");
+            }
+            return result;
         }
     }
 }

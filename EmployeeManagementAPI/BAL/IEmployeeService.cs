@@ -8,5 +8,6 @@ namespace EmployeeManagementAPI.BAL
     {
         List<Employee> GetAllEmployeeDetails();
         Employee GetEmployeeDetails(Guid id);
+        UpdateEmployeeResult AddOrUpdateEmployee(Employee emp, bool isUpdate, bool isDelete);
     }
 }

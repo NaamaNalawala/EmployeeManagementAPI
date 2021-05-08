@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace EmployeeDataAccessLayer.Models
 {
-     public class Employee
+    public class AddEmployeeRequest
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string Password { get; set; }
         public DateTime? JoiningDt { get; set; } = DateTime.Now;
         public DateTime? RelievingDt { get; set; }
-        public DateTime? CreatedDt { get; set; }
-        public DateTime? ModifiedDt { get; set; }
-        public string CreatedBy { get; set; }
-        public string ModifiedBy { get; set; }
-        public string Role { get; set; }
+        [Required]
         public Guid RoleId { get; set; }
-        public string Designation { get; set; }
-        public Guid DesignationId { get; set; }
-        public Guid ProfileId { get; set; } = Guid.NewGuid();
+        public Guid DestinationId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -31,7 +27,5 @@ namespace EmployeeDataAccessLayer.Models
         public DateTime? DateOfBirth { get; set; }
         public string Education { get; set; }
         public string UserImage { get; set; }
-
-
     }
 }

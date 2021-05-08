@@ -8,7 +8,7 @@ namespace EmployeeManagementAPI.BAL
 {
     public interface IUserService
     {
-        string IsValidUserCredentials(LoginRequest request);
+        Dictionary<string, string> IsValidUserCredentials(LoginRequest request);
         string GetUserRole(string username);
     }
 }
