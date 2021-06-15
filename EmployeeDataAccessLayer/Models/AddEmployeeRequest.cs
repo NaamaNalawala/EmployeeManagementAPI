@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -27,5 +28,7 @@ namespace EmployeeDataAccessLayer.Models
         public DateTime? DateOfBirth { get; set; }
         public string Education { get; set; }
         public string UserImage { get; set; }
+        public List<File> Files { get; set; }
     }
+
 }

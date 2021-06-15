@@ -67,16 +67,12 @@ namespace EmployeeDataAccessLayer.DAL
         {
             try
             {
-                string sql = @"Select r.Id as RoleId, r.Name as RoleName, d.Id as DesignationId, d.Name as DesignationName from  dbo.Roles r, dbo.Designation d; ";
+                string sql = @"Select r.Id as RoleId, r.Name as RoleName, d.Id as DesignationId, d.Name as DesignationName, e.Id as EducationId, e.Name as EducationName, e.OtherDetails as EducationOtherDetails from  dbo.Roles r, dbo.Designation d, dbo.Education e; ";
                 var result = dapper.GetAll<QueryResult>(sql, null, CommandType.Text);
-                List<EmployeeForm> formDetails = new List<EmployeeForm>();
-                List<Role> roles = new List<Role>();
-                roles = result.GroupBy(x => new { x.RoleId, x.RoleName }).Select(x => new Role { Id = x.Key.RoleId, Name = x.Key.RoleName }).ToList();
-                List<Designation> designations  = result.GroupBy(x => new { x.DesignationId, x.DesignationName }).Select(x => new Designation { Id = x.Key.DesignationId, Name = x.Key.DesignationName }).ToList();
-
                 return new EmployeeForm() { 
-                    Roles = roles,
-                    Designations = designations
+                    Roles = result.GroupBy(x => new { x.RoleId, x.RoleName }).Select(x => new Role { Id = x.Key.RoleId, Name = x.Key.RoleName }).ToList(),
+                    Designations = result.GroupBy(x => new { x.DesignationId, x.DesignationName }).Select(x => new Designation { Id = x.Key.DesignationId, Name = x.Key.DesignationName }).ToList(),
+                    Education = result.GroupBy(x => new { x.EducationId, x.EducationName, x.EducationOtherDetails }).Select(x => new Education { Id = x.Key.EducationId, Name = x.Key.EducationName, OtherDetails = x.Key.EducationOtherDetails }).ToList()
                 };
             }
             catch (SqlException e)
