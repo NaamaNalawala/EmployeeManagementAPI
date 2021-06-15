@@ -12,8 +12,8 @@ namespace EmployeeManagementAPI.BAL
     {
         public string GetUserRole(string username)
         {
-            IEmployeeDetails employeeObj = new EmployeeDetails();
-            List<Employee> employees = employeeObj.GetUserProfileData(Guid.Empty);
+            EmployeeDataAccessLayer.DAL.IEmployeeService employeeObj = new EmployeeRepository();
+            List<Employee> employees = employeeObj.GetEmployees(Guid.Empty).Employees;
             Employee e = employees.Find(x => x.UserName == username);
             if (e != null && !string.IsNullOrEmpty(e.Role))
                 return e.Role;
@@ -22,8 +22,8 @@ namespace EmployeeManagementAPI.BAL
 
         public Dictionary<string, string> IsValidUserCredentials(LoginRequest request)
         {
-            IEmployeeDetails employee = new EmployeeDetails();
-            List<Employee> emp = employee.GetUserProfileData(Guid.Empty);
+            EmployeeDataAccessLayer.DAL.IEmployeeService employee = new EmployeeRepository();
+            List<Employee> emp = employee.GetEmployees(Guid.Empty).Employees;
             Employee e = emp.Find(x => x.UserName == request.UserName);
             Dictionary<string, string> result = new Dictionary<string, string>();
             if (e!=null && e.Password == request.Password)

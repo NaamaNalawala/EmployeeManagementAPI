@@ -9,21 +9,21 @@ namespace EmployeeManagementAPI.BAL
 {
     public class EmployeeService : IEmployeeService
     {
-        IEmployeeDetails employee = new EmployeeDetails();
+        EmployeeDataAccessLayer.DAL.IEmployeeService employee = new EmployeeRepository();
 
         public UpdateEmployeeResult AddOrUpdateEmployee(Employee emp, bool isUpdate, bool isDelete)
         {
             return employee.AddOrUpdateEmployee(emp, isUpdate, isDelete);
         }
 
-        public List<Employee> GetAllEmployeeDetails()
+        public EmployeeWithFormDetails GetAllEmployeeDetails()
         {
-            return employee.GetUserProfileData(Guid.Empty);
+            return employee.GetEmployees(Guid.Empty);
         }
 
         public Employee GetEmployeeDetails(Guid id)
         {
-            return employee.GetUserProfileData(id).First();
+            return employee.GetEmployees(id).Employees.First();
         }
     }
 }

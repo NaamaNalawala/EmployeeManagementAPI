@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace EmployeeDataAccessLayer.DAL
 {
-    public interface IEmployeeDetails
+    public interface IEmployeeService
     {
-        List<Employee> GetUserDetails();
-        List<Employee> GetUserProfileData(Guid empId);
+        EmployeeForm GetEmployeeFormDetails();
+        EmployeeWithFormDetails GetEmployees(Guid empId);
         UpdateEmployeeResult AddOrUpdateEmployee(Employee emp, bool isUpdate, bool isDelete);
     }
 }

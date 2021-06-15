@@ -15,7 +15,7 @@ namespace EmployeeDataAccessLayer.Models
         public DateTime? RelievingDt { get; set; }
         [Required]
         public Guid RoleId { get; set; }
-        public Guid DestinationId { get; set; }
+        public Guid DesignationId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

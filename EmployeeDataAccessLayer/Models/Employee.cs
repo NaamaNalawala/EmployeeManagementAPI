@@ -31,7 +31,12 @@ namespace EmployeeDataAccessLayer.Models
         public DateTime? DateOfBirth { get; set; }
         public string Education { get; set; }
         public string UserImage { get; set; }
+        public EmployeeForm EmployeeForm { get; set; }
 
-
+    }
+    public class EmployeeWithFormDetails
+    {
+        public List<Employee> Employees { get; set; }
+        public EmployeeForm EmployeeFormDetails { get; set; }
     }
 }

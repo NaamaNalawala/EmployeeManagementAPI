@@ -22,7 +22,7 @@ namespace EmployeeManagementAPI.Controllers
         }
         // GET: api/<EmployeeController>
         [HttpGet]
-        public List<Employee> Get()
+        public EmployeeWithFormDetails Get()
         {
             return _employeeService.GetAllEmployeeDetails();
         }
@@ -59,9 +59,10 @@ namespace EmployeeManagementAPI.Controllers
                         Education = request.Education,
                         UserImage = request.UserImage,
                         RoleId = request.RoleId,
-                        DesignationId = request.DestinationId,
+                        DesignationId = request.DesignationId,
                         CreatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
-                        ModifiedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                        ModifiedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                        EmailId = request.EmailId
                     };
                     return Ok(_employeeService.AddOrUpdateEmployee(employee, false, false));
                 }
@@ -103,7 +104,7 @@ namespace EmployeeManagementAPI.Controllers
                         Education = request.Education,
                         UserImage = request.UserImage,
                         RoleId = request.RoleId,
-                        DesignationId = request.DestinationId,
+                        DesignationId = request.DesignationId,
                         ModifiedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
                     };
                     return Ok(_employeeService.AddOrUpdateEmployee(employee, true, false));

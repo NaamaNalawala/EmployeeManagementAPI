@@ -6,7 +6,7 @@ namespace EmployeeManagementAPI.BAL
 {
     public interface IEmployeeService
     {
-        List<Employee> GetAllEmployeeDetails();
+        EmployeeWithFormDetails GetAllEmployeeDetails();
         Employee GetEmployeeDetails(Guid id);
         UpdateEmployeeResult AddOrUpdateEmployee(Employee emp, bool isUpdate, bool isDelete);
     }

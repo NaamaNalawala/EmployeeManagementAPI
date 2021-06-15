@@ -35,7 +35,7 @@ namespace EmployeeManagementAPI.Controllers
                 return BadRequest();
             }
             Dictionary<string, string> result = _userService.IsValidUserCredentials(request);
-            if (result.GetValueOrDefault("isValid") == "invalidUser")
+            if (result.GetValueOrDefault("isValid") == "false")
             {
                 return Unauthorized();
             }
@@ -58,9 +58,6 @@ namespace EmployeeManagementAPI.Controllers
                 RefreshToken = jwtResult.RefreshToken.TokenString
             });
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
     }
 }
