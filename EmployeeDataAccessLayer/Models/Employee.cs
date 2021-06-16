@@ -32,7 +32,7 @@ namespace EmployeeDataAccessLayer.Models
         public string Education { get; set; }
         public string UserImage { get; set; }
         public EmployeeForm EmployeeForm { get; set; }
-
+        public List<File> Files { get; set; } = new List<File>();
     }
     public class EmployeeWithFormDetails
     {

@@ -8,6 +8,7 @@ using EmployeeDataAccessLayer.DAL.Repositories;
 using Dapper;
 using System.Linq;
 using static EmployeeDataAccessLayer.Models.CommonTypes;
+using System.Text.Json;
 
 namespace EmployeeDataAccessLayer.DAL
 {
@@ -16,32 +17,46 @@ namespace EmployeeDataAccessLayer.DAL
         readonly IDapper dapper = new Dapperr();
         public UpdateEmployeeResult AddOrUpdateEmployee(Employee emp, bool isUpdate, bool isDelete)
         {
+            List<File> files = new List<File>();
+            File f = new File() { 
+            Name = "Aadhaar_Card.pdf",
+            Path = "Images/" + Guid.NewGuid() + ".pdf"
+            };
+            files.Add(f);
+            f = new File()
+            {
+                Name = "Pan_Card.pdf",
+                Path = "Images/" + Guid.NewGuid() + ".pdf"
+            };
+            files.Add(f);
+            emp.Files = files;
             try
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@empId", emp.Id);
-                parameters.Add("@JoiningDt", (emp.JoiningDt));
+                parameters.Add("@JoiningDt", emp.JoiningDt);
                 parameters.Add("@RelievingDt", emp.RelievingDt);
                 parameters.Add("@UserName", (emp.UserName));
                 parameters.Add("@Password", (emp.Password));
                 parameters.Add("@IsDeleted", isDelete);
                 parameters.Add("@FirstName", emp.FirstName);
                 parameters.Add("@MiddleName", (emp.MiddleName));
-                parameters.Add("@LastName", (emp.LastName));
+                parameters.Add("@LastName", emp.LastName);
                 parameters.Add("@EmailId", emp.EmailId);
-                parameters.Add("@Contact", (emp.ContactNum));
-                parameters.Add("@Gender", (emp.Gender));
-                parameters.Add("@Address", (emp.Address));
-                parameters.Add("@City", (emp.City));
-                parameters.Add("@DateOfBirth", (emp.DateOfBirth));
-                parameters.Add("@Education", (emp.Education));
-                parameters.Add("@CreatedBy", (emp.CreatedBy));
-                parameters.Add("@ModifiedBy", (emp.ModifiedBy));
+                parameters.Add("@Contact", emp.ContactNum);
+                parameters.Add("@Gender", emp.Gender);
+                parameters.Add("@Address", emp.Address);
+                parameters.Add("@City", emp.City);
+                parameters.Add("@DateOfBirth", emp.DateOfBirth);
+                parameters.Add("@Education", emp.Education);
+                parameters.Add("@CreatedBy", emp.CreatedBy);
+                parameters.Add("@ModifiedBy", emp.ModifiedBy);
                 parameters.Add("@UserImage", (emp.UserImage));
                 parameters.Add("@IsUpdate", isUpdate);
                 parameters.Add("@profId", emp.ProfileId);
                 parameters.Add("@roleId", (emp.RoleId));
                 parameters.Add("@designationId", (emp.DesignationId));
+                parameters.Add("@files", JsonSerializer.Serialize(emp.Files));
                 parameters.Add("@result", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
                 //var result = dapper.Get<int>(SP.SP_AddOrUpdate_EmployeeDetails.Value, parameters, CommandType.StoredProcedure);

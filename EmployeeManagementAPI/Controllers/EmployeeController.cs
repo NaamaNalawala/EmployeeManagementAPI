@@ -62,7 +62,8 @@ namespace EmployeeManagementAPI.Controllers
                         DesignationId = request.DesignationId,
                         CreatedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                         ModifiedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
-                        EmailId = request.EmailId
+                        EmailId = request.EmailId,
+                        Files = request.Files
                     };
                     return Ok(_employeeService.AddOrUpdateEmployee(employee, false, false));
                 }
